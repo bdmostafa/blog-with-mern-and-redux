@@ -2,6 +2,8 @@ import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import useStyles from "./styles";
 import FileBase from "react-file-base64";
+import { useDispatch } from "react-redux";
+import { createPost } from "../../actions/posts";
 
 const Form = () => {
   const classes = useStyles();
@@ -12,8 +14,14 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
+// console.log(postData)
+  const dispatch = useDispatch();
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+      e.preventDefault();
+
+    dispatch(createPost(postData))
+  };
   const clear = () => {
 
   }
@@ -30,7 +38,7 @@ const Form = () => {
           name="writer"
           variant="outlined"
           label="Writer"
-          fullwidth
+          fullwidth="true"
           value={postData.writer}
           onChange={(e) =>
             setPostData({
@@ -43,7 +51,7 @@ const Form = () => {
           name="title"
           variant="outlined"
           label="Title"
-          fullwidth
+          fullwidth="true"
           value={postData.title}
           onChange={(e) =>
             setPostData({
@@ -56,7 +64,7 @@ const Form = () => {
           name="message"
           variant="outlined"
           label="Message"
-          fullwidth
+          fullwidth="true"
           value={postData.message}
           onChange={(e) =>
             setPostData({
@@ -69,7 +77,7 @@ const Form = () => {
           name="tags"
           variant="outlined"
           label="Tags"
-          fullwidth
+          fullwidth="true"
           value={postData.tags}
           onChange={(e) =>
             setPostData({
@@ -92,21 +100,21 @@ const Form = () => {
         </div>
         <Button
           className={classes.buttonSubmit}
-          variant="container"
+          variant="contained"
           color="primary"
           size="large"
           type="submit"
-          fullwidth
+          fullwidth="true"
         >
             Submit
         </Button>
         <Button
           className={classes.buttonSubmit}
-          variant="contained"
+          variant="outlined"
           color="secondary"
           size="small"
           onClick={clear}
-          fullwidth
+          fullwidth="true"
         >
             Clear
         </Button>
