@@ -1,11 +1,11 @@
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../actions/posts";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const [postData, setPostData] = useState({
     writer: "",
@@ -14,17 +14,41 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
-// console.log(postData)
+  // console.log(currentId)
+
+  // If currentId is true, find the selected post to be updated
+  const selectedPost = useSelector((state) =>
+    currentId ? state.posts.find((post) => post._id === currentId) : null
+  );
+
+  // console.log(selectedPost)
+
+  useEffect(() => {
+    if (selectedPost) setPostData(selectedPost);
+  }, [selectedPost]);
+
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-    dispatch(createPost(postData))
+    currentId
+      ? dispatch(updatePost(currentId, postData))
+      : dispatch(createPost(postData));
+
+    clear();
   };
+  
   const clear = () => {
-
-  }
+    setCurrentId(null);
+    setPostData({
+      writer: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
   return (
     <Paper className={classes.paper}>
       <form
@@ -33,7 +57,9 @@ const Form = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Writing a Blog</Typography>
+        <Typography variant="h6">
+          {currentId ? "Editing the blog" : "Writing a Blog"}
+        </Typography>
         <TextField
           name="writer"
           variant="outlined"
@@ -106,7 +132,7 @@ const Form = () => {
           type="submit"
           fullwidth="true"
         >
-            Submit
+          Submit
         </Button>
         <Button
           className={classes.buttonSubmit}
@@ -116,7 +142,7 @@ const Form = () => {
           onClick={clear}
           fullwidth="true"
         >
-            Clear
+          Clear
         </Button>
       </form>
     </Paper>
