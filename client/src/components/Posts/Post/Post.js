@@ -64,15 +64,18 @@ const Post = ({
         {title}
       </Typography>
       <CardContent>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="body2" color="textSecondary" component="p">
           {message}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" onClick={() => dispatch(likePost(_id))}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => dispatch(likePost(_id))}
+        >
           <ThumbUpIcon fontSize="small" />
-          Like
-          {likeCount}
+          Like {likeCount}
         </Button>
         <Button
           size="small"

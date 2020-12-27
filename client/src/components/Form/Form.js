@@ -38,7 +38,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
     clear();
   };
-  
+
   const clear = () => {
     setCurrentId(null);
     setPostData({
@@ -108,7 +108,7 @@ const Form = ({ currentId, setCurrentId }) => {
           onChange={(e) =>
             setPostData({
               ...postData,
-              tags: e.target.value,
+              tags: e.target.value.split(','),
             })
           }
         />
