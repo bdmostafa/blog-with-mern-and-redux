@@ -52,7 +52,23 @@ export const deletePost = async (req, res) => {
 
   await PostMessage.findByIdAndRemove(id);
 
-  res.json({ message: 'Post deleted successfully!' })
-}
+  res.json({ message: "Post deleted successfully!" });
+};
+
+export const likePost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("Oops! Post not found. Try again.");
+
+  const post = await PostMessage.findById(id);
+  const updatedPost = await PostMessage.findByIdAndUpdate(
+    id,
+    { likeCount: post.likeCount + 1 },
+    { new: true }
+  );
+// console.log(updatedPost.likeCount)
+  res.json(updatedPost)
+};
 
 export default router;
