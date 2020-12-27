@@ -20,6 +20,10 @@ app.use(cors());
 
 app.use('/posts', postRoutes);
 
+app.get('/', (req, res) => {
+  res.send("Welcome to mBlog site")
+})
+
 const CONNECTION_URL = process.env.MONGO_URI;
 const PORT = process.env.PORT|| 4200;
 
