@@ -11,7 +11,7 @@ export const getPosts = () => async (dispatch) => {
     const { data } = await api.fetchPosts();
     dispatch({ type: "FETCH_ALL", payload: data });
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
 };
 
@@ -20,16 +20,25 @@ export const createPost = (post) => async (dispatch) => {
     const { data } = await api.createPost(post);
     dispatch({ type: "CREATE_POST", payload: data });
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
 };
 
 export const updatePost = (id, updatedPost) => async (dispatch) => {
   try {
-    const { data } = await api.updatePost(id, updatedPost)
-    console.log(data)
-    dispatch({ type: "UPDATE_POST", payload: data })
+    const { data } = await api.updatePost(id, updatedPost);
+    // console.log(data)
+    dispatch({ type: "UPDATE_POST", payload: data });
   } catch (err) {
-    console.log(err.message)
+    console.log(err);
   }
-}
+};
+
+export const deletePost = (id) => async (dispatch) => {
+  try {
+    await api.deletePost(id);
+    dispatch({ type: "DELETE_POST", payload: id })
+  } catch (err) {
+    console.log(err);
+  }
+};
